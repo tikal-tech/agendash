@@ -1,10 +1,12 @@
 const newJob = Vue.component("new-job", {
   data: () => ({
     jobDataParseError: "",
-    jobName: "",
+    jobName: "send-sms",
     jobSchedule: "",
     jobRepeatEvery: "",
-    jobData: `{ "name": "Your medatada goes here..." }`,
+    jobTag: "",
+    jobMessage: "",
+    jobData: "",
   }),
   props: ["job"],
   methods: {
@@ -13,14 +15,18 @@ const newJob = Vue.component("new-job", {
         (this.jobName = ""),
         (this.jobSchedule = ""),
         (this.jobRepeatEvery = ""),
-        (this.jobData = `{ "name": "Your medatada goes here..." }`);
+        (this.jobTag = "");
+      this.jobMessage = "";
+      this.jobData = "";
     },
     create() {
       const url = `api/jobs/create`;
-
       let jobData = "";
       try {
-        jobData = JSON.parse(this.jobData);
+        jobData = {
+          tag: this.jobTag,
+          message: this.jobMessage,
+        };
       } catch (err) {
         this.jobDataParseError = err.message;
         return;
@@ -72,8 +78,13 @@ const newJob = Vue.component("new-job", {
                 <small id="jobRepeatEvery" class="form-text text-muted">Number/Every Unit i.e: "1 month" or "3 hours"</small>
               </div>
               <div class="form-group">
-                <label for="jobData">Job Metadata</label>
-                <prism-editor class="json-editor" :lineNumbers="true" v-model="jobData" language="json"></prism-editor>
+                <label for="jobTag">Nome da tag</label>
+                <textarea class="form-control" v-model="jobTag"></textarea>
+                <small class="form-text text-muted">{{jobDataParseError}}</small>
+              </div>
+              <div class="form-group">
+                <label for="jobMessage">Mensagem</label>
+                <textarea class="form-control" v-model="jobMessage"></textarea>
                 <small class="form-text text-muted">{{jobDataParseError}}</small>
               </div>
             </form>

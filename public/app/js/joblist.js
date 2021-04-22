@@ -106,6 +106,8 @@ const jobList = Vue.component("job-list", {
                   <i v-else class="material-icons sortableinactive" title="Sort A to Z">arrow_drop_down</i>
               </th>
               <th  scope="col"> Locked </th>
+              <th  scope="col"> Tag </th>
+              <th  scope="col"> Message </th>
               <th  scope="col"> Actions </th>
             </tr>
           </thead>
@@ -143,11 +145,14 @@ const jobList = Vue.component("job-list", {
                   <td class="job-nextRunAt"  @click="toggleList(job)"> {{ formatDate(job.job.nextRunAt) }} </td>
                   <td class="job-finishedAt"  @click="toggleList(job)"> {{ formatDate(job.job.lastFinishedAt) }} </td>
                   <td class="job-lockedAt"  @click="toggleList(job)"> {{ formatDate(job.job.lockedAt) }} </td>
+                    <td class="job-name"  @click="toggleList(job)"> {{job.job.data.tag}} </td>
+                    <td class="job-name"  @click="toggleList(job)"> {{job.job.data.message.slice(0, 15)}} </td>
                   <td class="job-actions">
                     <i class="material-icons md-dark md-custom action-btn viewData text-primary" data-toggle="modal" data-target="#modalRequeueSure" @click="$emit('confirm-requeue', job)" data-placement="left" title="Requeue">update</i>
                     <i class="material-icons md-dark md-custom action-btn viewData text-success" data-toggle="modal" data-target="#modalData" @click="$emit('show-job-detail', job)" data-placement="top" title="Job Data">visibility</i>
                     <i class="material-icons md-dark md-custom action-btn viewData text-danger" data-toggle="modal" data-target="#modalDeleteSure" @click="$emit('confirm-delete', job)" data-placement="top" title="Delete permanently">delete_forever</i>
-                </td>
+                    </td>
+
             </tr>
           </tbody>
         </table>
